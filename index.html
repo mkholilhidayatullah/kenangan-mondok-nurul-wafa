@@ -101,6 +101,12 @@ button{font-family:inherit;cursor:pointer}
 .add{margin:44px 0 0;border:1.5px dashed var(--line);padding:26px 24px;max-width:620px}
 .add h3{font-family:var(--serif);font-weight:900;font-size:1.45rem;margin-bottom:8px}
 .add p{color:var(--ink-soft);font-size:.97rem}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+.hero .add-btn{display:inline-block;margin-top:22px;background:var(--gold);color:#241d05;text-decoration:none;font-weight:700;padding:13px 24px;border-radius:999px}
+.hero .add-btn:hover{background:#dcb73c}
+.fab{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:40;background:var(--gold);color:#241d05;text-decoration:none;font-weight:700;padding:11px 22px;border-radius:999px;box-shadow:0 10px 26px rgba(10,20,14,.35);transition:opacity .3s, visibility .3s}
+.fab.hide{opacity:0;visibility:hidden}
 .wa-btn{display:inline-block;margin-top:16px;background:var(--green);color:var(--cream);text-decoration:none;font-weight:600;padding:12px 22px;border-radius:999px}
 .wa-btn:hover{background:var(--green-deep)}
 footer a{color:#e8c96a;text-decoration:none}
@@ -145,6 +151,7 @@ footer .sig{font-family:var(--hand);font-size:1.3rem;color:#efe3ae}
       <p class="sub">Album foto hari-hari tinggal di pondok.</p>
       <p class="place">Nurul Wafa — Demung, Besuki, Situbondo</p>
       <p class="note">yang diingat bukan tanggalnya,<br>tapi orang-orangnya.</p>
+      <a class="add-btn" href="#tambah">Tambah foto atau video</a>
     </div>
     <div>
       <div class="stack" id="stack" aria-label="Tumpukan foto pilihan">
@@ -200,7 +207,7 @@ footer .sig{font-family:var(--hand);font-size:1.3rem;color:#efe3ae}
 
   <section class="closing">
     <p class="big rv">Hari-hari itu sudah lewat. <em>Fotonya tetap tinggal.</em></p>
-    <div class="add rv">
+    <div class="add rv" id="tambah">
       <h3>Tambah kenangan</h3>
       <p>Album ini masih bisa bertambah. Foto dan video baru diunggah lewat album Kenangan Mondok di aplikasi Muse, tempat semua unggahan tersimpan — versi web ini adalah salinannya untuk dibagikan ke teman-teman. Ada foto lama yang belum masuk? Kirimkan, nanti ditambahkan.</p>
       <a class="wa-btn" href="https://whatsapp.com/channel/0029VbE2U0N2P59n3bRAYZ2F" target="_blank" rel="noopener">Ikuti saluran Momen Nurul Wafa di WhatsApp</a>
@@ -208,6 +215,8 @@ footer .sig{font-family:var(--hand);font-size:1.3rem;color:#efe3ae}
   </section>
 
 </main>
+
+<a class="fab" href="#tambah" id="fabBtn">Tambah foto / video</a>
 
 <footer>
   <div class="wrap">
@@ -286,6 +295,14 @@ document.documentElement.classList.add('js');
     }, {threshold: .12});
     rv.forEach(function(el){ io.observe(el); });
     document.querySelectorAll('.ch-head').forEach(function(el){ io.observe(el); });
+  }
+
+  /* fab: sembunyi saat kotak tambah terlihat */
+  var fab = document.getElementById('fabBtn'), addBox = document.getElementById('tambah');
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function(es){
+      es.forEach(function(e){ fab.classList.toggle('hide', e.isIntersecting); });
+    }, {threshold: .15}).observe(addBox);
   }
 
   /* lightbox */
